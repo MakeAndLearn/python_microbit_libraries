@@ -120,7 +120,7 @@ def DC(index, velocitat):
         set_pwm(pp, 0, 0)
         set_pwm(pn, 0, -velocitat)
 
-def Servo(index, posicio):
+def servo(index, posicio):
 
     if index > 7 or index <= 0:
         print("No has seleccionat correctament el motor\n")
@@ -131,47 +131,3 @@ def Servo(index, posicio):
     value = v_us * 4096 / 20000
     value = int(value)
     set_pwm(index + 8, 0, value)
-
-def setStepper(index, direction):
-    if index == 1:
-        if direction:
-            set_pwm(0, STP_CHA_L, STP_CHA_H)
-            set_pwm(2, STP_CHB_L, STP_CHB_H)
-            set_pwm(1, STP_CHC_L, STP_CHC_H)
-            set_pwm(3, STP_CHD_L, STP_CHD_H)
-        else:
-            set_pwm(0, STP_CHA_L, STP_CHA_H)
-            set_pwm(1, STP_CHB_L, STP_CHB_H)
-            set_pwm(2, STP_CHC_L, STP_CHC_H)
-            set_pwm(3, STP_CHD_L, STP_CHD_H)
-    else:
-        if direction:
-            set_pwm(4, STP_CHA_L, STP_CHA_H)
-            set_pwm(6, STP_CHB_L, STP_CHB_H)
-            set_pwm(5, STP_CHC_L, STP_CHC_H)
-            set_pwm(7, STP_CHD_L, STP_CHD_H)
-        else:
-            set_pwm(4, STP_CHA_L, STP_CHA_H)
-            set_pwm(5, STP_CHB_L, STP_CHB_H)
-            set_pwm(6, STP_CHC_L, STP_CHC_H)
-            set_pwm(7, STP_CHD_L, STP_CHD_H)
-
-def Stepper(index, grau):
-    if index < 1 or index > 2:
-        print("No has seleccionat correctament el motor\n")
-        print("Si us plau, indica quin motor stepper vols moure, 1 o 2\n")
-        return
-
-    setStepper(index, grau > 0)
-    grau = abs(grau)
-    sleep(8500 * grau / 360)
-    stopMotors()
-
-def stepperVoltes(index, voltes):
-    graus = voltes * 360
-    Stepper(index, graus)
-
-def stopMotors():
-    for i in range(1, 5, 1):
-        set_pwm((i - 1) * 2, 0, 0)
-        set_pwm((i - 1) * 2 + 1, 0, 0)
